@@ -5,7 +5,7 @@
 <style>
 .whatsapp-float-btn {
   position: fixed;
-  right: 24px;
+    right: 60px;
   bottom: 24px;
   width: 62px;
   height: 62px;
@@ -32,7 +32,7 @@
 }
 @media (max-width: 600px) {
   .whatsapp-float-btn {
-    right: 12px;
+    right: 32px;
     bottom: 12px;
     width: 54px;
     height: 54px;
@@ -361,6 +361,36 @@
     /* Oculta el menú hamburguesa en escritorio */
     @media (min-width: 901px) {
       .mobile-menu-nav { display: none !important; }
+    }
+    @media (max-width: 600px) {
+      .top-bar {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 12px 8px;
+      }
+      .right-icons {
+        width: 100%;
+        justify-content: flex-end;
+        gap: 12px !important;
+        margin-top: 8px;
+      }
+      .right-icons > div {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        gap: 0;
+      }
+      .search {
+        width: 100%;
+        min-width: 0;
+        box-sizing: border-box;
+        font-size: 1em;
+      }
+      .search-btn {
+        border-radius: 0 8px 8px 0;
+        padding: 6px 12px;
+        font-size: 1em;
+      }
     }
   </style>
 </head>
@@ -837,6 +867,17 @@
     cartIcon.parentElement.onclick = () => { cartModal.style.display = 'block'; };
     cartCloseBtn.onclick = () => { cartModal.style.display = 'none'; };
 
+    // Cerrar el carrito al hacer clic fuera del modal
+    document.addEventListener('mousedown', function(e) {
+      if (
+        cartModal.style.display === 'block' &&
+        !cartModal.contains(e.target) &&
+        !cartIcon.parentElement.contains(e.target)
+      ) {
+        cartModal.style.display = 'none';
+      }
+    });
+
     // --- Cambiar cantidad y eliminar producto ---
     cartItems.onclick = function(e) {
       if (e.target.classList.contains('qty-btn')) {
@@ -1215,6 +1256,19 @@
     // Cerrar menú con ESC
     document.addEventListener('keydown', function(e){
       if(e.key === 'Escape') {
+        mobileMenuPanel.classList.remove('open');
+        document.body.style.overflow = '';
+      }
+    });
+    document.addEventListener('mousedown', function(e) {
+      var mobileMenuPanel = document.querySelector('.mobile-menu-panel');
+      var hamburgerBtn = document.getElementById('hamburgerBtn');
+      if (
+        mobileMenuPanel &&
+        mobileMenuPanel.classList.contains('open') &&
+        !mobileMenuPanel.contains(e.target) &&
+        e.target !== hamburgerBtn
+      ) {
         mobileMenuPanel.classList.remove('open');
         document.body.style.overflow = '';
       }
