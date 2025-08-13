@@ -388,12 +388,6 @@
           <input type="email" id="email" name="email" required>
         </div>
         <div class="form-row">
-          <label for="pais">País *</label>
-          <select id="pais" name="pais" required>
-            <option value="Perú" selected>Perú</option>
-          </select>
-        </div>
-        <div class="form-row">
           <label for="nombres">Nombres *</label>
           <input type="text" id="nombres" name="nombres" required>
           <label for="apellidos">Apellidos *</label>
@@ -555,26 +549,31 @@
   </main>
 
   <!-- Pie de página -->
-  <footer class="footer">
-    <div class="footer-links">
-      <a href="#">Blog</a>
-      <a href="#">Contacto</a>
-      <a href="#">Nosotros</a>
-    </div>
-    <div class="footer-social">
-      <a href="#"><img src="https://img.icons8.com/ios-filled/24/facebook-new.png" alt="Facebook"></a>
-      <a href="#"><img src="https://img.icons8.com/ios-filled/24/instagram-new.png" alt="Instagram"></a>
-      <a href="#"><img src="https://img.icons8.com/ios-filled/24/youtube-play.png" alt="YouTube"></a>
-    </div>
-    <div class="footer-payments">
-      <span>Medios de pago:</span>
-      <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Yape_logo.png" alt="Yape" class="pay-icon">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/2/2e/Logo_Plin.png" alt="Plin" class="pay-icon">
-      <img src="https://img.icons8.com/ios-filled/24/visa.png" alt="Visa" class="pay-icon">
-      <img src="https://img.icons8.com/ios-filled/24/mastercard.png" alt="Mastercard" class="pay-icon">
-    </div>
-    <div class="footer-legal">
-      <small>© 2025 FloreríasB. Desarrollado por Equipo Dev. Todos los derechos reservados.</small>
+  <footer class="footer" style="background:#fff6fa;padding:32px 0 18px 0;margin-top:48px;">
+    <div style="display:flex;flex-direction:column;align-items:center;gap:18px;">
+      <!-- Logo centrado -->
+      <img src="IO EE.png" alt="Logo FloreríasB" style="height:54px;width:54px;margin-bottom:8px;">
+      <!-- Teléfono de contacto -->
+      <div style="font-size:1.08em;color:#c06;font-weight:600;display:flex;align-items:center;gap:8px;">
+        <span>📞</span>
+        <span>952408803</span>
+      </div>
+      <!-- Redes sociales con íconos a color -->
+      <div style="display:flex;gap:18px;margin:8px 0;">
+        <a href="https://wa.me/51952408803" target="_blank" title="WhatsApp">
+          <img src="https://img.icons8.com/color/36/whatsapp--v1.png" alt="WhatsApp">
+        </a>
+        <a href="https://facebook.com/" target="_blank" title="Facebook">
+          <img src="https://img.icons8.com/color/36/facebook-new.png" alt="Facebook">
+        </a>
+        <a href="https://instagram.com/" target="_blank" title="Instagram">
+          <img src="https://img.icons8.com/color/36/instagram-new.png" alt="Instagram">
+        </a>
+      </div>
+      <!-- Derechos reservados -->
+      <div style="font-size:0.98em;color:#888;text-align:center;margin-top:8px;">
+        © 2025 Florerías TA. Todos los derechos reservados.
+      </div>
     </div>
   </footer>
 
@@ -593,19 +592,15 @@
         li.innerHTML = `<span>${item.name} x${item.qty}</span><span>S/ ${(item.price * item.qty).toFixed(2)}</span>`;
         summaryList.appendChild(li);
       });
-      // Costo de envío según distrito
+      // Costo de envío fijo (sin distrito)
       let envio = 15;
-      const distritoSel = document.getElementById('envDistrito');
-      if (distritoSel) {
-        const selected = distritoSel.options[distritoSel.selectedIndex];
-        envio = parseFloat(selected.getAttribute('data-envio')) || 15;
-      }
       summaryShipping.textContent = `S/ ${envio.toFixed(2)}`;
       summaryTotal.textContent = `S/ ${(subtotal + envio).toFixed(2)}`;
     }
-    document.getElementById('envDistrito').addEventListener('change', renderSummary);
     renderSummary();
-
+    // Elimina el listener de cambio de distrito
+  </script>
+  <script>
     // --- Métodos de pago dinámicos ---
     const paymentFields = document.getElementById('paymentFields');
     document.querySelectorAll('input[name="pagoMetodo"]').forEach(radio => {
@@ -632,9 +627,8 @@
       if (yapeRadio) yapeRadio.dispatchEvent(new Event('change'));
     });
 
-    // --- Validación y envío del formulario ---
+    // --- Validación y envío del formulario SOLO a Formspree ---
     document.getElementById('checkoutForm').addEventListener('submit', function(e){
-      e.preventDefault();
       // Validaciones básicas
       let email = this.email.value.trim();
       let tel = this.tel.value.trim();
@@ -643,65 +637,25 @@
       let comentarios = this.comentarios.value.trim();
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
         alert('Ingrese un correo electrónico válido.');
-        this.email.focus(); return;
+        this.email.focus(); e.preventDefault(); return;
       }
       if (!/^[0-9]{7,15}$/.test(tel)) {
-        alert('Ingrese un teléfono válido.'); this.tel.focus(); return;
+        alert('Ingrese un teléfono válido.'); this.tel.focus(); e.preventDefault(); return;
       }
       if (!/^[0-9]{7,15}$/.test(envTel)) {
-        alert('Ingrese un teléfono de envío válido.'); this.envTel.focus(); return;
+        alert('Ingrese un teléfono de envío válido.'); this.envTel.focus(); e.preventDefault(); return;
       }
       if (dedicatoria.length > 500) {
-        alert('La dedicatoria no puede superar 500 caracteres.'); this.dedicatoria.focus(); return;
+        alert('La dedicatoria no puede superar 500 caracteres.'); this.dedicatoria.focus(); e.preventDefault(); return;
       }
       if (comentarios.length > 300) {
-        alert('Los comentarios no pueden superar 300 caracteres.'); this.comentarios.focus(); return;
+        alert('Los comentarios no pueden superar 300 caracteres.'); this.comentarios.focus(); e.preventDefault(); return;
       }
       if (!this.terminos.checked) {
-        alert('Debe aceptar los términos y condiciones.'); return;
+        alert('Debe aceptar los términos y condiciones.'); e.preventDefault(); return;
       }
-
-      // --- Armar mensaje para WhatsApp ---
-      let pagoMetodo = document.querySelector('input[name="pagoMetodo"]:checked')?.value || '';
-      let pagoDetalle = '';
-      if (pagoMetodo === 'Yape') {
-        let yapeNombre = document.getElementById('yapeNombre')?.value || '';
-        let yapeCel = document.getElementById('yapeCel')?.value || '';
-        pagoDetalle = `Yape\nNombre: ${yapeNombre}\nCelular: ${yapeCel}`;
-      } else if (pagoMetodo === 'Tarjeta') {
-        let tarjetaNum = document.getElementById('tarjetaNum')?.value || '';
-        let tarjetaNombre = document.getElementById('tarjetaNombre')?.value || '';
-        let tarjetaVenc = document.getElementById('tarjetaVenc')?.value || '';
-        let tarjetaCVV = document.getElementById('tarjetaCVV')?.value || '';
-        pagoDetalle = `Tarjeta\nNúmero: ${tarjetaNum}\nNombre: ${tarjetaNombre}\nVencimiento: ${tarjetaVenc}\nCVV: ${tarjetaCVV}`;
-      }
-
-      // Resumen de pedido
-      let productos = [];
-      let summaryList = document.querySelectorAll('#summaryList li');
-      summaryList.forEach(li => productos.push(li.textContent.trim()));
-      let envio = document.getElementById('summaryShipping').textContent;
-      let total = document.getElementById('summaryTotal').textContent;
-
-      // Mensaje final
-      let mensaje = `Nuevo pedido desde la web:\n\n` +
-        `--- Facturación ---\n` +
-        `Email: ${email}\nNombre: ${this.nombres.value} ${this.apellidos.value}\nTeléfono: ${tel}\nPaís: ${this.pais.value}\nCiudad: ${this.ciudad.value}\nDirección: ${this.direccion.value}\nComprobante: ${this.comprobante.value}\n` +
-        `--- Envío ---\n` +
-        `Tipo: ${this.envioTipo.value}\nNombre: ${this.envNombres.value} ${this.envApellidos.value}\nTeléfono: ${envTel}\nCiudad: ${this.envCiudad.value}\nDistrito: ${this.envDistrito.value}\nDirección: ${this.envDireccion.value}\nReferencia: ${this.envReferencia.value}\nFecha: ${this.envFecha.value}\nHorario: ${this.envHorario.value}\n` +
-        `--- Dedicatoria ---\n` +
-        `Motivo: ${this.motivo.value}\nMensaje: ${dedicatoria}\nComentarios: ${comentarios}\n` +
-        `--- Método de pago ---\n${pagoDetalle}\n` +
-        `--- Pedido ---\n${productos.join('\n')}\nEnvío: ${envio}\nTotal: ${total}`;
-
-      // Reemplaza por tu número de WhatsApp (ejemplo: 51999988877)
-      let numeroWhatsApp = "952408803";
-      let url = `https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(mensaje)}`;
-      window.open(url, '_blank');
+      // Si todo está correcto, el formulario se envía normalmente a Formspree
     });
-
-    // --- Actualizar resumen al cambiar distrito ---
-    document.getElementById('envDistrito').addEventListener('change', renderSummary);
   </script>
 </body>
 </html>

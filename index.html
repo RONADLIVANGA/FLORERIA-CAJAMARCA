@@ -1,3 +1,48 @@
+<!-- Botón flotante de WhatsApp -->
+<a href="https://wa.me/51952408803" target="_blank" class="whatsapp-float-btn" title="Escríbenos por WhatsApp">
+  <img src="https://img.icons8.com/color/48/whatsapp--v1.png" alt="WhatsApp" style="width:38px;height:38px;">
+</a>
+<style>
+.whatsapp-float-btn {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  width: 62px;
+  height: 62px;
+  background: #25D366;
+  border-radius: 50%;
+  box-shadow: 0 4px 16px rgba(37,211,102,0.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 99999;
+  transition: box-shadow 0.2s, transform 0.2s;
+  animation: whatsapp-bounce 1.2s infinite;
+}
+@keyframes whatsapp-bounce {
+  0%, 100% { transform: translateY(0); }
+  20% { transform: translateY(-10px); }
+  40% { transform: translateY(0); }
+  60% { transform: translateY(-6px); }
+  80% { transform: translateY(0); }
+}
+.whatsapp-float-btn:hover {
+  box-shadow: 0 8px 32px rgba(37,211,102,0.22);
+  transform: scale(1.08);
+}
+@media (max-width: 600px) {
+  .whatsapp-float-btn {
+    right: 12px;
+    bottom: 12px;
+    width: 54px;
+    height: 54px;
+  }
+  .whatsapp-float-btn img {
+    width: 32px;
+    height: 32px;
+  }
+}
+</style>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -195,27 +240,152 @@
     body.usd .old-price, body.usd .current-price { display: none; }
     body.usd .old-price-usd, body.usd .current-price-usd { display: inline; }
     .old-price-usd, .current-price-usd { display: none; }
+
+    /* Solo visible en pantallas <=900px */
+    @media (max-width: 900px) {
+      .mobile-menu-nav {
+        position: fixed;
+        top: 0; left: 0; width: 100vw; z-index: 99999;
+        font-family: 'Montserrat', Arial, sans-serif;
+      }
+      .mobile-menu-btn {
+        position: absolute;
+        top: 16px; right: 18px;
+        width: 44px; height: 44px;
+        background: #ffe4ef;
+        border: none;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(200,0,100,0.10);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 6px;
+        cursor: pointer;
+        z-index: 10001;
+        transition: background 0.2s;
+      }
+      .mobile-menu-btn span {
+        display: block;
+        width: 26px; height: 4px;
+        background: #c06;
+        border-radius: 2px;
+        transition: all 0.3s;
+      }
+      .mobile-menu-panel {
+        position: fixed;
+        top: 0; right: -320px;
+        width: 280px; max-width: 90vw;
+        height: 100vh;
+        background: #fff;
+        box-shadow: -2px 0 16px rgba(200,0,100,0.12);
+        border-radius: 0 0 0 18px;
+        transition: right 0.35s cubic-bezier(.7,.3,.3,1);
+        padding-top: 0;
+        overflow-y: auto;
+        font-size: 1em;
+        color: #333;
+      }
+      .mobile-menu-panel.open {
+        right: 0;
+      }
+      .mobile-menu-close {
+        position: absolute;
+        top: 14px; right: 18px;
+        background: none;
+        border: none;
+        font-size: 2em;
+        color: #c06;
+        cursor: pointer;
+        z-index: 10002;
+      }
+      .mobile-menu-list {
+        list-style: none;
+        margin: 0; padding: 64px 0 0 0;
+      }
+      .mobile-menu-item {
+        border-bottom: 1px solid #f3c1d1;
+      }
+      .mobile-menu-link {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 16px 24px;
+        color: #c06;
+        font-weight: 700;
+        cursor: pointer;
+        font-size: 1.08em;
+        transition: background 0.2s;
+      }
+      .mobile-menu-link::after {
+        content: '▼';
+        font-size: 0.8em;
+        color: #c06;
+        margin-left: 8px;
+        transition: transform 0.3s;
+      }
+      .mobile-menu-item.open > .mobile-menu-link::after {
+        transform: rotate(-180deg);
+      }
+      .mobile-submenu {
+        display: none;
+        flex-direction: column;
+        background: #fff6fa;
+        padding: 0 0 8px 0;
+        border-radius: 0 0 12px 12px;
+        animation: fadeInSub 0.25s;
+      }
+      .mobile-menu-item.open > .mobile-submenu {
+        display: flex;
+      }
+      .mobile-submenu li a {
+        display: block;
+        padding: 12px 32px;
+        color: #333;
+        font-weight: 400;
+        text-decoration: none;
+        font-size: 1em;
+        transition: background 0.2s, color 0.2s;
+      }
+      .mobile-submenu li a:hover {
+        background: #ffe4ef;
+        color: #c06;
+      }
+      @keyframes fadeInSub {
+        from { opacity: 0; transform: translateY(-8px);}
+        to { opacity: 1; transform: translateY(0);}
+      }
+      /* Oculta el menú mega original en móvil */
+      .mega-menu { display: none !important; }
+    }
+    /* Oculta el menú hamburguesa en escritorio */
+    @media (min-width: 901px) {
+      .mobile-menu-nav { display: none !important; }
+    }
   </style>
 </head>
 <body>
   <!-- Barra superior -->
   <header class="top-bar">
-    <div class="left-icons">
-      <!-- Logo de la página (más grande) -->
+    <div class="left-icons" style="display:flex;align-items:center;">
+      <!-- Logo alineado a la izquierda y más grande -->
       <span class="logo" style="margin-right:18px;">
-        <img src="IO EE.png" alt="FloreríasB" style="height:56px;vertical-align:middle;">
+        <img src="IO EE.png" alt="FloreríasB" style="height:80px;width:80px;vertical-align:middle;">
       </span>
-      <span class="icon"><img src="https://img.icons8.com/ios-filled/24/language.png" alt="Idioma"></span>
-      <select class="currency">
-        <option value="PEN">S/ (PEN)</option>
-        <option value="USD">USD ($)</option>
-      </select>
-      <span class="exchange">1 USD ≈ 3.80 S/</span>
+      <!-- Se eliminó Idioma, moneda y tipo de cambio -->
     </div>
-    <div class="right-icons">
-      <span class="icon"><img src="https://img.icons8.com/ios-filled/24/shopping-cart.png" alt="Carrito"></span>
-      <input type="text" class="search" placeholder="Buscar...">
-      <button class="search-btn"><img src="https://img.icons8.com/ios-filled/20/search.png" alt="Buscar"></button>
+    <div class="right-icons" style="display:flex;align-items:center;gap:18px;">
+      <!-- Icono de carrito claro y moderno -->
+      <span class="icon" style="background:#c06;border-radius:8px;padding:6px;box-shadow:0 2px 8px rgba(200,0,100,0.10);">
+        <img src="https://img.icons8.com/ios-glyphs/32/ffffff/shopping-cart.png" alt="Carrito">
+      </span>
+      <!-- Buscador con icono claro y diseño bonito -->
+      <div style="display:flex;align-items:center;gap:0;">
+        <input type="text" class="search" placeholder="Buscar..." style="border:1px solid #c06;background:#fff6fa;color:#c06;border-radius:8px 0 0 8px;padding:6px 12px;">
+        <button class="search-btn" style="background:#c06;border:none;border-radius:0 8px 8px 0;padding:6px 12px;box-shadow:0 2px 8px rgba(200,0,100,0.10);display:flex;align-items:center;">
+          <img src="https://img.icons8.com/ios-glyphs/28/ffffff/search--v1.png" alt="Buscar">
+        </button>
+      </div>
     </div>
   </header>
 
@@ -286,11 +456,84 @@
     </ul>
   </nav>
 
+  <!-- Menú hamburguesa responsive solo para móviles/tablets -->
+  <nav id="mobileMenuNav" class="mobile-menu-nav">
+    <button id="mobileMenuBtn" class="mobile-menu-btn" aria-label="Abrir menú">
+      <span></span><span></span><span></span>
+    </button>
+    <div id="mobileMenuPanel" class="mobile-menu-panel">
+      <button id="mobileMenuClose" class="mobile-menu-close" aria-label="Cerrar menú">&times;</button>
+      <ul class="mobile-menu-list">
+        <li class="mobile-menu-item has-sub">
+          <span class="mobile-menu-link">Ocasiones</span>
+          <ul class="mobile-submenu">
+            <li><a href="#">Cumpleaños</a></li>
+            <li><a href="#">Aniversario</a></li>
+            <li><a href="#">Amor</a></li>
+            <li><a href="#">Condolencias</a></li>
+            <li><a href="#">Graduación</a></li>
+          </ul>
+        </li>
+        <li class="mobile-menu-item has-sub">
+          <span class="mobile-menu-link">Flores</span>
+          <ul class="mobile-submenu">
+            <li><a href="#">Rosas</a></li>
+            <li><a href="#">Lirios</a></li>
+            <li><a href="#">Tulipanes</a></li>
+            <li><a href="#">Girasoles</a></li>
+          </ul>
+        </li>
+        <li class="mobile-menu-item has-sub">
+          <span class="mobile-menu-link">Cajas y Ramos</span>
+          <ul class="mobile-submenu">
+            <li><a href="#">Cajas cilíndricas</a></li>
+            <li><a href="#">Ramos clásicos</a></li>
+            <li><a href="#">Bouquets</a></li>
+          </ul>
+        </li>
+        <li class="mobile-menu-item has-sub">
+          <span class="mobile-menu-link">Canastas y Boxes Gourmet</span>
+          <ul class="mobile-submenu">
+            <li><a href="#">Canastas de frutas</a></li>
+            <li><a href="#">Boxes dulces</a></li>
+            <li><a href="#">Boxes salados</a></li>
+          </ul>
+        </li>
+        <li class="mobile-menu-item has-sub">
+          <span class="mobile-menu-link">Regalos</span>
+          <ul class="mobile-submenu">
+            <li><a href="#">Peluches</a></li>
+            <li><a href="#">Globos</a></li>
+            <li><a href="#">Tarjetas</a></li>
+          </ul>
+        </li>
+        <li class="mobile-menu-item has-sub">
+          <span class="mobile-menu-link">Provincias</span>
+          <ul class="mobile-submenu">
+            <li><a href="#">Cajabamba</a></li>
+            <li><a href="#">Cajamarca</a></li>
+            <li><a href="#">Celendín</a></li>
+            <li><a href="#">Chota</a></li>
+            <li><a href="#">Contumaza</a></li>
+            <li><a href="#">Cutervo</a></li>
+            <li><a href="#">Hualgayoc</a></li>
+            <li><a href="#">Jaén</a></li>
+            <li><a href="#">San Ignacio</a></li>
+            <li><a href="#">San Marcos</a></li>
+            <li><a href="#">San Miguel</a></li>
+            <li><a href="#">San Pablo</a></li>
+            <li><a href="#">Santa Cruz</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
   <!-- Breadcrumbs y título -->
   <div class="breadcrumbs">
-    <a href="#"></a>  <a href="#"></a>  <span>Floreria Cajamarca</span>
+    <a href="#"></a>  <a href="#"></a>  <span>Florería Cajamarca</span>
   </div>
-  <h1 class="page-title">Floreria Cajamarca</h1>
+  <h1 class="page-title">Florería Cajamarca</h1>
 
   <main class="main-content">
     <!-- Filtros laterales -->
@@ -328,7 +571,7 @@
     <!-- Listado de productos -->
     <section class="products">
       <div class="product-card">
-        <img src="https://via.placeholder.com/180x180?text=Joyce" alt="Modelo Joyce">
+        <img src="1.jpg" alt="Modelo Joyce">
         <h4>Modelo Joyce</h4>
         <p class="price">
           <span class="old-price">S/ 180</span>
@@ -339,7 +582,7 @@
         <button class="buy-btn">Comprar</button>
       </div>
       <div class="product-card">
-        <img src="https://via.placeholder.com/180x180?text=Box+36+Rosas" alt="Box cilíndrico con 36 rosas">
+        <img src="2.jpg" alt="Box cilíndrico con 36 rosas">
         <h4>Box cilíndrico con 36 rosas</h4>
         <p class="price">
           <span class="old-price">S/ 220</span>
@@ -350,7 +593,7 @@
         <button class="buy-btn">Comprar</button>
       </div>
       <div class="product-card">
-        <img src="https://via.placeholder.com/180x180?text=Tulipanes" alt="Bouquet de tulipanes">
+        <img src="3.jpg" alt="Bouquet de tulipanes">
         <h4>Bouquet de tulipanes</h4>
         <p class="price">
           <span class="old-price">S/ 160</span>
@@ -361,7 +604,7 @@
         <button class="buy-btn">Comprar</button>
       </div>
       <div class="product-card">
-        <img src="https://via.placeholder.com/180x180?text=Rosas+Rojas" alt="Rosas Rojas 24">
+        <img src="4.jpg" alt="Rosas Rojas 24">
         <h4>Rosas rojas 24</h4>
         <p class="price">
           <span class="old-price">S/ 200</span>
@@ -372,7 +615,7 @@
         <button class="buy-btn">Comprar</button>
       </div>
       <div class="product-card">
-        <img src="https://via.placeholder.com/180x180?text=Lirios+Blancos" alt="Lirios Blancos 12">
+        <img src="5.jpg" alt="Lirios Blancos 12">
         <h4>Lirios blancos 12</h4>
         <p class="price">
           <span class="old-price">S/ 140</span>
@@ -383,7 +626,7 @@
         <button class="buy-btn">Comprar</button>
       </div>
       <div class="product-card">
-        <img src="https://via.placeholder.com/180x180?text=Tulipanes+Amarillos" alt="Tulipanes Amarillos 36">
+        <img src="6.jpg" alt="Tulipanes Amarillos 36">
         <h4>Tulipanes amarillos 36</h4>
         <p class="price">
           <span class="old-price">S/ 250</span>
@@ -394,7 +637,7 @@
         <button class="buy-btn">Comprar</button>
       </div>
       <div class="product-card">
-        <img src="https://via.placeholder.com/180x180?text=Girasoles+Rosados" alt="Girasoles Rosados 12">
+        <img src="7.jpg" alt="Girasoles Rosados 12">
         <h4>Girasoles rosados 12</h4>
         <p class="price">
           <span class="old-price">S/ 130</span>
@@ -406,7 +649,7 @@
       </div>
       <!-- Ejemplo de productos para Ocasiones -->
       <div class="product-card">
-        <img src="https://via.placeholder.com/180x180?text=Rosas+Amor" alt="Rosas Amor 12">
+        <img src="8.jpg" alt="Rosas Amor 12">
         <h4>Rosas rojas 12 - Amor</h4>
         <p class="price">
           <span class="old-price">S/ 120</span>
@@ -417,7 +660,7 @@
         <button class="buy-btn">Comprar</button>
       </div>
       <div class="product-card">
-        <img src="https://via.placeholder.com/180x180?text=Tulipanes+Cumpleaños" alt="Tulipanes Cumpleaños 24">
+        <img src="9.png" alt="Tulipanes Cumpleaños 24">
         <h4>Tulipanes amarillos 24 - Cumpleaños</h4>
         <p class="price">
           <span class="old-price">S/ 180</span>
@@ -429,7 +672,7 @@
       </div>
       <!-- Ejemplo de producto para Cajas y Ramos -->
       <div class="product-card">
-        <img src="https://via.placeholder.com/180x180?text=Caja+Bouquet" alt="Caja Bouquet 36 Rosas">
+        <img src="10.jpg" alt="Caja Bouquet 36 Rosas">
         <h4>Caja bouquet 36 rosas - Aniversario</h4>
         <p class="price">
           <span class="old-price">S/ 250</span>
@@ -441,7 +684,7 @@
       </div>
       <!-- Ejemplo de producto para Canastas y Boxes Gourmet -->
       <div class="product-card">
-        <img src="https://via.placeholder.com/180x180?text=Canasta+Frutas" alt="Canasta Frutas Gourmet">
+        <img src="11.jpg" alt="Canasta Frutas Gourmet">
         <h4>Canasta de frutas gourmet - Condolencias</h4>
         <p class="price">
           <span class="old-price">S/ 180</span>
@@ -453,7 +696,7 @@
       </div>
       <!-- Ejemplo de producto para Regalos -->
       <div class="product-card">
-        <img src="https://via.placeholder.com/180x180?text=Peluches+Globos" alt="Peluches y Globos">
+        <img src="12.jpg" alt="Peluches y Globos">
         <h4>Peluches y globos - Graduación</h4>
         <p class="price">
           <span class="old-price">S/ 90</span>
@@ -465,7 +708,7 @@
       </div>
       <!-- Ejemplo de producto para Provincias/Extranjero -->
       <div class="product-card">
-        <img src="https://via.placeholder.com/180x180?text=Rosas+Arequipa" alt="Rosas Arequipa 24">
+        <img src="13.jpg" alt="Rosas Arequipa 24">
         <h4>Rosas rojas 24 - Arequipa</h4>
         <p class="price">
           <span class="old-price">S/ 210</span>
@@ -515,11 +758,6 @@
       item.addEventListener('mouseleave', function(){
         this.classList.remove('open');
       });
-    });
-
-    // Cambio de moneda
-    document.querySelector('.currency').addEventListener('change', function(e){
-      document.body.classList.toggle('usd', e.target.value === 'USD');
     });
 
     // --- Carrito de compras ---
@@ -657,14 +895,12 @@
     // --- Agregar producto desde botones existentes ---
     document.querySelectorAll('.products .product-card').forEach((card, idx) => {
       const btn = card.querySelector('.buy-btn');
-      btn.onclick = function() {
+      btn.addEventListener('click', function() {
         const name = card.querySelector('h4').textContent.trim();
         const img = card.querySelector('img').src;
-        // Busca el precio current (S/)
         let priceText = card.querySelector('.current-price');
         let price = priceText ? priceText.textContent.replace(/[^\d.]/g, '') : '0';
         price = parseFloat(price) || 0;
-        // Genera un id único por producto
         const id = name.replace(/\s+/g, '_') + '_' + idx;
         const idxCart = cart.findIndex(i => i.id == id);
         if (idxCart > -1) {
@@ -674,10 +910,9 @@
         }
         renderCart();
         showMessage('Producto añadido al carrito');
-        // Animación icono
         cartIcon.style.transform = 'scale(1.2)';
         setTimeout(() => cartIcon.style.transform = '', 300);
-      };
+      });
     });
 
     // --- Mostrar filtros seleccionados y aplicar ---
@@ -791,10 +1026,10 @@
     })();
 
     // --- Eventos para filtrar en tiempo real ---
-    document.querySelectorAll('.filters input').forEach(el => {
-      el.addEventListener('change', filtrarProductos);
-      el.addEventListener('input', filtrarProductos);
-    });
+    // document.querySelectorAll('.filters input').forEach(el => {
+    //   el.addEventListener('change', filtrarProductos);
+    //   el.addEventListener('input', filtrarProductos);
+    // });
 
     // --- Filtrado por menú mega ---
     document.querySelectorAll('.mega-menu .dropdown-content a').forEach(link => {
@@ -912,6 +1147,78 @@
         if (autocompleteBox) autocompleteBox.style.display = 'none';
       }
     });
+
+    // JS menú responsive
+    // Elementos
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const mobileMenuPanel = document.getElementById('mobileMenuPanel');
+    const mobileMenuClose = document.getElementById('mobileMenuClose');
+    // Abrir menú
+    mobileMenuBtn.onclick = function() {
+      mobileMenuPanel.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    };
+    // Cerrar menú
+    mobileMenuClose.onclick = function() {
+      mobileMenuPanel.classList.remove('open');
+      document.body.style.overflow = '';
+    };
+    // Cerrar al hacer clic fuera del menú
+    mobileMenuPanel.addEventListener('click', function(e){
+      if(e.target === mobileMenuPanel) {
+        mobileMenuPanel.classList.remove('open');
+        document.body.style.overflow = '';
+      }
+    });
+    // Submenús: abrir/cerrar al tocar la categoría
+    document.querySelectorAll('.mobile-menu-item.has-sub > .mobile-menu-link').forEach(function(link){
+      link.onclick = function(e){
+        e.preventDefault();
+        const item = this.parentElement;
+        item.classList.toggle('open');
+        // Cierra otros submenús
+        document.querySelectorAll('.mobile-menu-item.has-sub').forEach(function(other){
+          if(other !== item) other.classList.remove('open');
+        });
+      };
+    });
+    // Opcional: cerrar menú al seleccionar una opción
+    document.querySelectorAll('.mobile-submenu a').forEach(function(a){
+      a.onclick = function(e){
+        mobileMenuPanel.classList.remove('open');
+        document.body.style.overflow = '';
+        // --- Filtrar productos según la opción seleccionada ---
+        const opcion = this.textContent.trim().toLowerCase();
+        // Provincias
+        const provincias = [
+          'cajabamba','cajamarca','celendín','chota','contumaza','cutervo','hualgayoc',
+          'jaén','san ignacio','san marcos','san miguel','san pablo','santa cruz'
+        ];
+        if (provincias.includes(opcion)) {
+          document.querySelectorAll('.products .product-card').forEach(card => {
+            card.style.display = '';
+          });
+          document.getElementById('selectedFilters').innerHTML = `<b>Provincia seleccionada:</b> ${this.textContent} <br><i>Mostrando todos los productos disponibles</i>`;
+        } else {
+          document.querySelectorAll('.products .product-card').forEach(card => {
+            const nombre = card.querySelector('h4').textContent.toLowerCase();
+            if (nombre.includes(opcion)) {
+              card.style.display = '';
+            } else {
+              card.style.display = 'none';
+            }
+          });
+          document.getElementById('selectedFilters').innerHTML = `<b>Filtro de menú:</b> ${this.textContent}`;
+        }
+      };
+    });
+    // Cerrar menú con ESC
+    document.addEventListener('keydown', function(e){
+      if(e.key === 'Escape') {
+        mobileMenuPanel.classList.remove('open');
+        document.body.style.overflow = '';
+      }
+    });
   </script>
 
   <footer class="footer">
@@ -935,9 +1242,10 @@
         </a>
       </div>
       <div style="color:#888;font-size:0.98em;margin-top:8px;">
-        &copy; 2025 FloreríasB. Todos los derechos reservados.
+        &copy; 2025 Florerías TA. Todos los derechos reservados.
       </div>
     </div>
   </footer>
 </body>
 </html>
+
